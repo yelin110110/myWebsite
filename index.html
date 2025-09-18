@@ -13,11 +13,37 @@
         h1 {
             color: #3366cc;
         }
+        .image-container {
+            margin: 30px auto;
+            max-width: 80%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        .caption {
+            margin-top: 15px;
+            font-style: italic;
+            color: #666;
+        }
     </style>
 </head>
 <body>
     <h1>Hello World！</h1>
-    <p>这是我部署在云端的第一个网站！阿栋你知道不</p>
+    <p>这是我部署在云端的第一个网站！大吊栋你知道不</p>
+    
+    <div class="video-container">
+        <video controls>
+            <source src="123.mp4" type="video/mp4">
+            您的浏览器不支持HTML5视频
+        </video>
+        <div class="caption">这视频太酷了！</div>
+    </div>
+    
     <p>太酷了！</p>
 </body>
 </html>
