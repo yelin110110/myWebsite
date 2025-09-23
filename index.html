@@ -34,7 +34,7 @@
 </head>
 <body>
     <h1>Hello World！</h1>
-    <p>这是我部署在云端的第一个网站！大吊栋你知道不</p>
+    <p>这是我部署在云端的第一个网站！</p>
     
     <div class="video-container">
         <video controls>
@@ -45,5 +45,88 @@
     </div>
     
     <p>太酷了！</p>
+	
+	<h2>用户注册</h2>
+	<form id="registerForm">
+		<input type="text" id="regUsername" placeholder="用户名" required>
+		<input type="password" id="regPassword" placeholder="密码" required>
+		<button type="submit">注册</button>
+	</form>
+	<p id="registerMessage"></p>
+	
+	<hr>
+	
+	<h2>用户登录</h2>
+	<form id="loginForm">
+		<input type="text" id="loginUsername" placeholder="用户名" required>
+		<input type="password" id="loginPassword" placeholder="密码" required>
+		<button type="submit">登录</button>
+	</form>
+	<p id="loginMessage"></p>
+	
+	<script>
+		// 1. 处理注册表单提交
+		document.getElementById('registerForm').addEventListener('submit', async function(event) {
+			event.preventDefault(); // 阻止表单默认提交行为（页面刷新）
+	
+			const username = document.getElementById('regUsername').value;
+			const password = document.getElementById('regPassword').value;
+			const messageElement = document.getElementById('registerMessage');
+	
+			try {
+				const response = await fetch('http://localhost:3000/api/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ username, password }),
+				});
+	
+				const result = await response.json();
+				messageElement.textContent = result.message;
+				messageElement.style.color = response.ok ? 'green' : 'red';
+	
+			} catch (error) {
+				console.error('注册错误:', error);
+				messageElement.textContent = '注册请求失败！';
+				messageElement.style.color = 'red';
+			}
+		});
+	
+		// 2. 处理登录表单提交
+		document.getElementById('loginForm').addEventListener('submit', async function(event) {
+			event.preventDefault();
+	
+			const username = document.getElementById('loginUsername').value;
+			const password = document.getElementById('loginPassword').value;
+			const messageElement = document.getElementById('loginMessage');
+	
+			try {
+				const response = await fetch('http://localhost:3000/api/login', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ username, password }),
+				});
+	
+				const result = await response.json();
+				messageElement.textContent = result.message;
+				messageElement.style.color = response.ok ? 'green' : 'red';
+	
+				// 如果登录成功，可以将token保存起来（例如localStorage），用于后续需要认证的请求
+				if (response.ok) {
+					console.log('登录成功，Token:', result.token);
+					localStorage.setItem('authToken', result.token);
+					// 这里可以跳转到其他页面，或者更新UI显示已登录状态
+				}
+	
+			} catch (error) {
+				console.error('登录错误:', error);
+				messageElement.textContent = '登录请求失败！';
+				messageElement.style.color = 'red';
+			}
+		});
+	</script>
 </body>
 </html>
